@@ -85,7 +85,7 @@ function Register() {
         </form>
         <div className="mt-3 text-center">
           <span>Vous avez déjà un compte ?</span>
-          <a href="/" className="text-decoration-none"> Se connecter</a>
+          <a href="/login" className="text-decoration-none"> Se connecter</a>
         </div>
       </div>
     </div>
