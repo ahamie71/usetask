@@ -13,6 +13,7 @@ function App() {
   const [search, setSearch] = useState(""); // Champ de recherche
   const [startDate, setStartDate] = useState(""); // Date de début pour le filtre
   const [endDate, setEndDate] = useState(""); // Date de fin pour le filtre
+  const [filterStatus, setFilterStatus] = useState(""); // Filtrer par statut
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -126,13 +127,14 @@ function App() {
     }
   };
 
-  // Filtrer les tâches en fonction du titre, du texte de recherche et des dates
+  // Filtrer les tâches en fonction du titre, du texte de recherche, des dates et du statut
   const filteredTasks = tasks.filter((task) => {
     const matchesSearch = task.title.toLowerCase().includes(search.toLowerCase());
     const matchesStartDate = startDate ? new Date(task.createdAt) >= new Date(startDate) : true;
     const matchesEndDate = endDate ? new Date(task.createdAt) <= new Date(endDate) : true;
+    const matchesStatus = filterStatus ? task.status === filterStatus : true;
 
-    return matchesSearch && matchesStartDate && matchesEndDate;
+    return matchesSearch && matchesStartDate && matchesEndDate && matchesStatus;
   });
 
   // Fonction pour formater la date
@@ -152,7 +154,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-3">
             <ClipboardList className="h-8 w-8 text-indigo-600" />
-            <h1 className="text-2xl font-bold text-gray-900">Gestionnaire de Tâches</h1>
+            <h1 className="text-3xl font-bold text-gray-900">Gestionnaire de Tâches</h1>
           </div>
           <button
             onClick={handleLogout}
@@ -179,13 +181,13 @@ function App() {
           </div>
         )}
 
-        {/* Filtre par texte et dates */}
+        {/* Filtre par texte, dates et statut */}
         <div className="mb-6 bg-white p-4 rounded-lg shadow-sm">
-          <h3 className="text-lg font-medium text-gray-900">Filtrer</h3>
+          <h3 className="text-2xl font-medium text-gray-900">Filtrer</h3>
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
             {/* Filtre par titre */}
             <div>
-              <label htmlFor="search" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="search" className="block text-lg font-medium text-gray-700">
                 Recherche par titre
               </label>
               <input
@@ -199,7 +201,7 @@ function App() {
             </div>
             {/* Filtre par date de début */}
             <div>
-              <label htmlFor="startDate" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="startDate" className="block text-lg font-medium text-gray-700">
                 Date de début
               </label>
               <input
@@ -212,7 +214,7 @@ function App() {
             </div>
             {/* Filtre par date de fin */}
             <div>
-              <label htmlFor="endDate" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="endDate" className="block text-lg font-medium text-gray-700">
                 Date de fin
               </label>
               <input
@@ -223,6 +225,23 @@ function App() {
                 onChange={(e) => setEndDate(e.target.value)}
               />
             </div>
+            {/* Filtre par statut */}
+            <div>
+              <label htmlFor="filterStatus" className="block text-lg font-medium text-gray-700">
+                Statut
+              </label>
+              <select
+                id="filterStatus"
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              >
+                <option value="">Tous</option>
+                <option value="en cours">En cours</option>
+                <option value="terminée">Terminée</option>
+                <option value="en attente">En attente</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -231,7 +250,7 @@ function App() {
           <form onSubmit={editingTask ? updateTask : addTask} className="space-y-4">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="title" className="block text-lg font-medium text-gray-700">
                   Titre
                 </label>
                 <input
@@ -244,7 +263,7 @@ function App() {
                 />
               </div>
               <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="description" className="block text-lg font-medium text-gray-700">
                   Description
                 </label>
                 <input
@@ -259,7 +278,7 @@ function App() {
 
             {/* Sélecteur de statut */}
             <div>
-              <label htmlFor="status" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="status" className="block text-lg font-medium text-gray-700">
                 Statut
               </label>
               <select
@@ -269,8 +288,8 @@ function App() {
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               >
                 <option value="en cours">En cours</option>
-    <option value="terminée">Terminée</option>
-    <option value="en attente">En attente</option>  
+                <option value="terminée">Terminée</option>
+                <option value="en attente">En attente</option>
               </select>
             </div>
 
@@ -317,10 +336,10 @@ function App() {
               className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200"
             >
               <div className="p-6">
-                <h3 className="text-lg font-medium text-gray-900 mb-2">{task.title}</h3>
-                <p className="text-gray-500 text-sm mb-4">{task.description}</p>
-                <p className="text-gray-400 text-xs mb-4">Créé le {formatDate(task.createdAt)}</p>
-                <p className="text-sm font-medium text-gray-600">Statut: {task.status}</p> {/* Affichage du statut */}
+                <h3 className="text-lg font-medium text-gray-900 mb-2">Title: {task.title}</h3>
+                <p className="text-gray-900 text-lg mb-4">Description: {task.description}</p>
+                <p className="text-gray-400 text-lg mb-4">Créé le {formatDate(task.createdAt)}</p>
+                <p className="text-lg font-medium text-gray-600">Statut: {task.status}</p>
                 <div className="flex justify-end space-x-2">
                   <button
                     onClick={() => startEditing(task)}
