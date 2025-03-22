@@ -13,11 +13,11 @@ function WelcomePage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 via-indigo-600 to-purple-700 text-white">
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full text-center space-y-8">
-        <h1 className="text-5xl font-bold text-gray-800 mb-6">
+      <div className=" p-8 rounded-lg shadow-lg max-w-4xl w-full text-center space-y-8">
+        <h1 className="text-5xl font-bold  mb-6">
           Bienvenue sur notre Application de Gestion de Tâches !
         </h1>
-        <p className="text-lg text-gray-600 mb-6 px-4">
+        <p className="text-lg  mb-6 px-4">
           Découvrez toutes les fonctionnalités qui vous aideront à mieux organiser votre travail et à augmenter votre productivité. Chaque outil est conçu pour rendre votre quotidien plus fluide.
         </p>
 
