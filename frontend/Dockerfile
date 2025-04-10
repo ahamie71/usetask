@@ -12,9 +12,9 @@ RUN npm install
 # Copier le reste des fichiers de l’application
 COPY . .
 
-# Exposer le port 3000 pour React
-EXPOSE 3000
+# Exposer le port 5173 pour React (vite)
+EXPOSE 5173
 
 # Lancer l'application en mode développement
-CMD ["npm","run","dev"]
+CMD ["npm", "run", "dev", "--", "--host"]
 

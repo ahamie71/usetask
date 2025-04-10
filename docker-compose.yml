@@ -1,0 +1,33 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    image: batyste/usetask-back:v1.0
+    ports:
+      - "5002:5002"
+    networks:
+      - mynetwork
+    depends_on:
+      - mongo
+
+  frontend:
+    build:
+      context: ./frontend
+    image: batyste/usetask-front:v1.0
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - mynetwork
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
