@@ -1,7 +1,5 @@
 services:
   backend:
-    build:
-      context: ./backend
     image: batyste/usetask-back:v1.0
     ports:
       - "5002:5002"
@@ -11,8 +9,6 @@ services:
       - mongo
 
   frontend:
-    build:
-      context: ./frontend
     image: batyste/usetask-front:v1.0
     ports:
       - "5173:5173"
