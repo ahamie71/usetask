@@ -30,7 +30,7 @@ function App() {
 
     const fetchTasks = async () => {
       try {
-        const res = await axios.get("http://localhost:5001/api/tasks", {
+        const res = await axios.get("http://localhost:5002/api/tasks", {
           headers: { Authorization: `Bearer ${token}` },
         });
         setTasks(res.data);
@@ -53,7 +53,7 @@ function App() {
     setErrorMessage("");
     try {
       const res = await axios.post(
-        "http://localhost:5001/api/tasks",
+        "http://localhost:5002/api/tasks",
         { title, description, status }, // Ajout du status ici
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -84,7 +84,7 @@ function App() {
     setErrorMessage("");
     try {
       const res = await axios.put(
-        `http://localhost:5001/api/tasks/${editingTask._id}`,
+        `http://localhost:5002/api/tasks/${editingTask._id}`,
         { title, description, status }, // Inclure le status lors de la modification
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -112,7 +112,7 @@ function App() {
   const deleteTask = async (id) => {
     setErrorMessage("");
     try {
-      await axios.delete(`http://localhost:5001/api/tasks/${id}`, {
+      await axios.delete(`http://localhost:5002/api/tasks/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== id));

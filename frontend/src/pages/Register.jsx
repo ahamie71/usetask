@@ -21,7 +21,7 @@ function Register() {
     console.log("Données envoyées :", userData);
 
     try {
-      const res = await axios.post("http://localhost:5001/api/users/register", userData, {
+      const res = await axios.post("http://localhost:5002/api/users/register", userData, {
         headers: { "Content-Type": "application/json" },
       });
 
